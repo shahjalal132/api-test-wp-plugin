@@ -60,6 +60,12 @@ function test_api_admin_callback() {
     // If request is successful (HTTP status code 200)
     if ( 200 == wp_remote_retrieve_response_code( $response ) ) {
         $data = wp_remote_retrieve_body( $response ); // Get response body
+
+        // display response body in web page
+        /* echo '<pre>';
+        print_r( $data );
+        die(); */
+
         put_response_data( $data );                   // Save response data to a file
     }
 
