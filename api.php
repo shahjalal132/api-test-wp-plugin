@@ -44,40 +44,50 @@ function external_api_testing_callback() {
 }
 add_action( 'admin_menu', 'external_api_testing_callback' );
 
+
 /**
- * Callback function to display content on the External API menu page.
- * This function sends a GET request to an external API and saves the response data to a file.
+ * Callback function for the test API admin interface.
  */
 function test_api_admin_callback() {
-    $url  = "https://jsonplaceholder.typicode.com/users"; // API endpoint URL
-    $args = [
-        'method'       => 'GET',                      // HTTP request method
-        'Content-Type' => 'application/json',         // Content type header
-    ];
+    ?>
+    <div class="wrap">
+        <h1>
+            <?php _e( 'Test External API', 'test-api' ); ?>
+        </h1>
+        <button id="send-get-request-btn" class="button button-primary">
+            <?php _e( 'Send GET Request', 'test-api' ); ?>
+        </button>
+        <div id="response-message"></div>
+    </div>
 
-    $response = wp_remote_get( $url, $args ); // Send GET request
+    <script>
+        jQuery(document).ready(function ($) {
 
-    // If request is successful (HTTP status code 200)
-    if ( 200 == wp_remote_retrieve_response_code( $response ) ) {
-        $data = wp_remote_retrieve_body( $response ); // Get response body
+            // Handle get get request button click event
+            $('#send-get-request-btn').on('click', function () {
+                // Send AJAX request
+                $.ajax({
+                    url: '<?php echo admin_url( 'admin-ajax.php' ); ?>',
+                    method: 'POST',
+                    data: {
+                        action: 'send_get_request' // AJAX action name
+                    },
+                    success: function (response) {
+                        $('#response-message').html(response);
+                    },
+                    error: function (xhr, status, error) {
+                        $('#response-message').html('<div class="error">Error: ' + error + '</div>');
+                    }
+                });
+            });
 
-        // display response body in web page
-        /* echo '<pre>';
-        print_r( $data );
-        die(); */
 
-        put_response_data( $data );                   // Save response data to a file
-    }
-
-    // If request fails or returns an error
-    if ( 200 !== wp_remote_retrieve_response_code( $response ) || is_wp_error( $response ) ) {
-        // Get the error message
-        $error_message = wp_remote_retrieve_response_message( $response );
-        $error_message = date( 'Y-m-d H:i:s' ) . ' - ' . $error_message . PHP_EOL;
-        put_error_message( $error_message ); // Save error message to a file
-    }
+        });
+    </script>
+    <?php
 }
 
 
 // include required files
 require_once API_PLUGIN_PATH . '/inc/api_custom_functions.php';
+require_once API_PLUGIN_PATH . '/inc/api_get_request.php';
