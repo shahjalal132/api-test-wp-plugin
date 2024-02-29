@@ -13,6 +13,11 @@
  * Text Domain:       test-api
  */
 
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 // Define plugin path
 if ( !defined( 'API_PLUGIN_PATH' ) ) {
     define( 'API_PLUGIN_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
