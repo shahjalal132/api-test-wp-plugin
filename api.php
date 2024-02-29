@@ -29,6 +29,14 @@ if ( !defined( 'API_PLUGIN_URI' ) ) {
 }
 
 /**
+ * Load the plugin textdomain for localization.
+ */
+add_action( 'plugins_loaded', 'xpay_load_textdomain' );
+function xpay_load_textdomain() {
+    load_plugin_textdomain( 'xpay', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+}
+
+/**
  * Register an External API menu page.
  */
 function external_api_testing_callback() {
@@ -49,14 +57,19 @@ add_action( 'admin_menu', 'external_api_testing_callback' );
  * Callback function for the test API admin interface.
  */
 function test_api_admin_callback() {
+    ob_start();
     ?>
+
     <div class="wrap">
+        
         <h1>
             <?php _e( 'Test External API', 'test-api' ); ?>
         </h1>
+
         <button id="send-get-request-btn" class="button button-primary">
             <?php _e( 'Send GET Request', 'test-api' ); ?>
         </button>
+
         <div id="response-message"></div>
     </div>
 
@@ -84,7 +97,8 @@ function test_api_admin_callback() {
 
         });
     </script>
-    <?php
+
+    <?php ob_get_clean();
 }
 
 
