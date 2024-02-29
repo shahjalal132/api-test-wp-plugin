@@ -57,11 +57,10 @@ add_action( 'admin_menu', 'external_api_testing_callback' );
  * Callback function for the test API admin interface.
  */
 function test_api_admin_callback() {
-    ob_start();
     ?>
 
     <div class="wrap">
-        
+
         <h1>
             <?php _e( 'Test External API', 'test-api' ); ?>
         </h1>
@@ -98,7 +97,7 @@ function test_api_admin_callback() {
         });
     </script>
 
-    <?php ob_get_clean();
+    <?php
 }
 
 
