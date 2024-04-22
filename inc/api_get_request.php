@@ -15,7 +15,7 @@ function send_get_request_callback() {
     // If request is successful (HTTP status code 200)
     if ( 200 == wp_remote_retrieve_response_code( $response ) ) {
         $data = wp_remote_retrieve_body( $response ); // Get response body
-        put_response_data( $data );                   // Save response data to a file
+        put_api_response_data( $data );                   // Save response data to a file
         echo '<div class="updated"><p>Response received:</p><pre>' . esc_html( $data ) . '</pre></div>';
     }
 
@@ -23,8 +23,7 @@ function send_get_request_callback() {
     if ( 200 !== wp_remote_retrieve_response_code( $response ) || is_wp_error( $response ) ) {
         // Get the error message
         $error_message = wp_remote_retrieve_response_message( $response );
-        $error_message = date( 'Y-m-d H:i:s' ) . ' - ' . $error_message . PHP_EOL;
-        put_error_message( $error_message ); // Save error message to a file
+        put_api_error_message( $error_message ); // Save error message to a file
         echo '<div class="error">Error: ' . esc_html( $error_message ) . '</div>';
     }
 

@@ -6,7 +6,7 @@
  *
  * @param string $data The response data to be saved.
  */
-function put_response_data( $data ) {
+function put_api_response_data( $data ) {
     // Ensure directory exists to store response data
     $directory = API_PLUGIN_PATH . '/api_response/';
     if ( !file_exists( $directory ) ) {
@@ -36,7 +36,7 @@ function put_response_data( $data ) {
  * @param string $error_message The error message to be written to the file.
  * @return string Return a success or failure message.
  */
-function put_error_message( $error_message ) {
+function put_api_error_message( $error_message ) {
     // Ensure directory exists to store error logs
     $directory = API_PLUGIN_PATH . '/api_response/';
     if ( !file_exists( $directory ) ) {

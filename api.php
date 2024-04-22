@@ -80,7 +80,7 @@ function test_api_admin_callback() {
                 // Send AJAX request
                 $.ajax({
                     url: '<?php echo admin_url( 'admin-ajax.php' ); ?>',
-                    method: 'POST',
+                    method: 'GET',
                     data: {
                         action: 'send_get_request' // AJAX action name
                     },
