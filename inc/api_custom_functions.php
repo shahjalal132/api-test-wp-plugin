@@ -8,19 +8,25 @@
  */
 function put_response_data( $data ) {
     // Ensure directory exists to store response data
-    $directory = API_PLUGIN_PATH . '/data/';
+    $directory = API_PLUGIN_PATH . '/api_response/';
     if ( !file_exists( $directory ) ) {
         mkdir( $directory, 0777, true );
     }
 
     // Construct file path for response data
-    $fileName = $directory . 'response.json';
+    $fileName = $directory . 'response.txt';
 
-    // Write response data to file
-    if ( file_put_contents( $fileName, $data ) !== false ) {
-        return "Data written to file successfully.";
+    // Get the current date and time
+    $current_datetime = date( 'Y-m-d H:i:s' );
+
+    // Append current date and time to the response data
+    $data = $data . ' - ' . $current_datetime;
+
+    // Append new response data to the existing file
+    if ( file_put_contents( $fileName, $data . PHP_EOL, FILE_APPEND | LOCK_EX ) !== false ) {
+        return "Data appended to file successfully.";
     } else {
-        return "Failed to write data to file.";
+        return "Failed to append data to file.";
     }
 }
 
@@ -32,7 +38,7 @@ function put_response_data( $data ) {
  */
 function put_error_message( $error_message ) {
     // Ensure directory exists to store error logs
-    $directory = API_PLUGIN_PATH . '/errors/';
+    $directory = API_PLUGIN_PATH . '/api_response/';
     if ( !file_exists( $directory ) ) {
         mkdir( $directory, 0777, true );
     }
@@ -40,10 +46,16 @@ function put_error_message( $error_message ) {
     // Construct file path for error log
     $fileName = $directory . 'error-log.txt';
 
-    // Write error message to file
-    if ( file_put_contents( $fileName, $error_message ) !== false ) {
-        return "Error message written to file successfully.";
+    // Get the current date and time
+    $current_datetime = date( 'Y-m-d H:i:s' );
+
+    // Append current date and time to the error message
+    $error_message = $error_message . ' - ' . $current_datetime;
+
+    // Append new error message to the existing file
+    if ( file_put_contents( $fileName, $error_message . PHP_EOL, FILE_APPEND | LOCK_EX ) !== false ) {
+        return "Error message appended to file successfully.";
     } else {
-        return "Failed to write error message to file.";
+        return "Failed to append error message to file.";
     }
 }
